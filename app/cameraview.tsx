@@ -52,7 +52,7 @@ export default function FoodCameraScreen() {
             setLoading(true);
             setResult(null);
 
-            const response = await axios.post("/api/generate", {
+            const response = await axios.post("https://aira-ai-red.vercel.app/api/generate", {
                 symptoms,
                 imageBase64: base64,
             });
