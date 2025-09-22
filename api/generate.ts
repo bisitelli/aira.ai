@@ -1,12 +1,31 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+// /api/generate.ts
+import type { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-    try {
-        const apiKey = process.env.GEMINI_API_KEY; // 🔑 haetaan Vercel envistä
+type Data = {
+    result?: string;
+    error?: string;
+};
 
+export default async function handler(
+    req: NextApiRequest,
+    res: NextApiResponse<Data>
+) {
+    if (req.method !== "POST") {
+        return res.status(405).json({ error: "Method not allowed" });
+    }
+
+    const { symptoms, imageBase64 } = req.body;
+
+    if (!symptoms || !imageBase64) {
+        return res.status(400).json({ error: "Missing parameters" });
+    }
+
+    try {
+        // Käytetään Vercel env-muuttujaa
+        const apiKey = process.env.GEMINI_API_KEY;
         if (!apiKey) {
-            return res.status(500).json({ error: "API key is missing" });
+            return res.status(500).json({ error: "Missing API key" });
         }
 
         const response = await axios.post(
@@ -14,18 +33,35 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             {
                 contents: [
                     {
-                        parts: [{ text: "Hello from Vercel function!" }],
+                        parts: [
+                            {
+                                text: `You are a nutrition therapist.
+1. Identify the food in this image (be specific, include main ingredients and preparation if possible).
+2. Analyze whether this food is GOOD, BAD, or NEUTRAL for the user's selected symptoms: ${symptoms.join(", ")}.
+3. Explain in 2–4 sentences why it may be good or bad, using clear, patient-friendly language. Mention known triggers.
+4. If relevant, add other typical digestive symptoms this food might cause.
+5. Give a practical suggestion.
+
+Return plain text only.`
+                            },
+                            {
+                                inline_data: {
+                                    mime_type: "image/jpeg",
+                                    data: imageBase64,
+                                },
+                            },
+                        ],
                     },
                 ],
             },
-            {
-                headers: { "Content-Type": "application/json" },
-            }
+            { headers: { "Content-Type": "application/json" } }
         );
 
-        res.status(200).json(response.data);
-    } catch (error: any) {
-        console.error("Gemini API error:", error.message);
-        res.status(500).json({ error: "Failed to call Gemini API" });
+        const aiText = response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+
+        res.status(200).json({ result: aiText });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "AI request failed" });
     }
 }
