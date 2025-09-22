@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import 'dotenv/config';
 
 export default function FoodCameraScreen() {
     const [permission, requestPermission] = useCameraPermissions();
@@ -53,53 +52,19 @@ export default function FoodCameraScreen() {
             setLoading(true);
             setResult(null);
 
-            const response = await axios.post(
-                "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GOOGLE_API_KEY}",
-                {
-                    contents: [
-                        {
-                            parts: [
-                                {
-                                    text: `You are a nutrition therapist.
-1. Identify the food in this image (be specific, include main ingredients and preparation if possible).
-2. Analyze whether this food is GOOD, BAD, or NEUTRAL for the user's selected symptoms: ${symptoms.join(", ")}.
-3. Explain in 2–4 sentences why it may be good or bad, using clear, patient-friendly language. Mention known triggers (e.g. fat, spice, lactose, caffeine, FODMAPs).  
-4. If relevant, add other typical digestive symptoms this food might cause, even if the user didn’t select them.
-5. Give a practical suggestion (e.g. portion control, alternative preparation, or substitution).
+            const response = await axios.post("/api/generate", {
+                symptoms,
+                imageBase64: base64,
+            });
 
-Return the response strictly in this JSON format:
-{
-    "[identified food]"
-    "[short explanation]",
-    Tip: [optional suggestion or alternative]
+            const aiText = response.data.result || "";
 
-    Do not use JSON, do not include braces {}, do not use markdown or code formatting. Return plain text only.
-}`
-                                },
-                                {
-                                    inline_data: {
-                                        mime_type: "image/jpeg",
-                                        data: base64,
-                                    },
-                                },
-                            ],
-                        },
-                    ],
-                },
-                { headers: { "Content-Type": "application/json" } }
-            );
-
-            const aiText = response.data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
-
-            // Määritetään status
             let status: "good" | "bad" = "bad";
             const lower = aiText.toLowerCase();
             if (lower.includes("good")) status = "good";
             else if (lower.includes("bad")) status = "bad";
 
-            // Poistetaan ensimmäinen good/bad selityksestä
             const cleanedText = aiText.replace(/^(good|bad)[\s,:.-]*/i, "").trim();
-
             setResult({ status, text: cleanedText });
         } catch (err) {
             console.error(err);
@@ -108,6 +73,7 @@ Return the response strictly in this JSON format:
             setLoading(false);
         }
     };
+
 
     return (
         <View style={{ flex: 1 }}>
