@@ -31,7 +31,7 @@ export default function HomeScreen() {
 
       {/* Päivän yhteenveto */}
       <View style={styles.summaryContainer}>
-        <Text style={styles.sectionHeader}>Today's Summary</Text>
+        <Text style={styles.sectionHeader}>{`Today's Summary`}</Text>
         <View style={styles.summaryColumns}>
           <View style={styles.summaryColumn}>
             <Ionicons name="restaurant-outline" size={24} color="#fff" style={{ marginRight: 8, backgroundColor: "#1E90FF", padding: 10, borderRadius: 50, }} />
