@@ -2,6 +2,8 @@ import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 
+
+
 export default function TabsLayout() {
     return <Tabs
         screenOptions={{
@@ -24,19 +26,26 @@ export default function TabsLayout() {
                 )
             }} />
         <Tabs.Screen
-            name="cameraview"
-            options={{
-                title: "",
-                tabBarIcon: () => null, // Ei perus ikonia
-                tabBarButton: (props) => (
-                    <TouchableOpacity {...props} style={styles.fabButton}>
-                        <View style={styles.fabCircle}>
-                            <Ionicons name="camera" color="#fff" size={32} />
-                        </View>
-                    </TouchableOpacity>
-                ),
-            }}
-        />
+                name="cameraview"
+                options={{
+                    title: "",
+                    tabBarIcon: () => null, // Ei perusikonia
+                    tabBarButton: (props) => {
+                        // Poista kaikki null-arvoiset propsit
+                        const safeProps = Object.fromEntries(
+                            Object.entries(props).filter(([_, value]) => value !== null)
+                        );
+
+                        return (
+                            <TouchableOpacity {...safeProps} style={styles.fabButton}>
+                                <View style={styles.fabCircle}>
+                                    <Ionicons name="camera" color="#fff" size={32} />
+                                </View>
+                            </TouchableOpacity>
+                        );
+                    },
+                }}
+            />
         <Tabs.Screen name="symptomselectionscreen"
             options={{
                 title: "Symptoms",
