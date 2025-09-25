@@ -24,9 +24,13 @@ export default function HomeScreen() {
 
       {/* Päivän lyhyt terveydentila */}
       <View style={styles.healthScoreContainer}>
-        <Text style={styles.healthScore}>{healthScore}</Text>
-        <Text style={styles.healthScoreLabel}>Health Score</Text>
-        <Text style={styles.shortInsight}>{shortInsight}</Text>
+        <View style={styles.scoreBox}>
+          <Text style={styles.healthScore}>{healthScore}</Text>
+        </View>
+        <View style={styles.scoreInfo}>
+          <Text style={styles.healthScoreLabel}>Health Score</Text>
+          <Text style={styles.shortInsight}>{shortInsight}</Text>
+        </View>
       </View>
 
       {/* Päivän yhteenveto */}
@@ -77,14 +81,26 @@ const styles = StyleSheet.create({
   healthScoreContainer: {
     width: "100%",
     padding: 20,
-    backgroundColor: "#e0f7fa",
+    backgroundColor: "#fff",
     borderRadius: 12,
     alignItems: "center",
     marginBottom: 20,
+    flexDirection: "row",
+    shadowOpacity: 0.05,
+    shadowRadius: 6,
+    elevation: 2,
   },
-  healthScore: { fontSize: 48, fontWeight: "700", color: "#00796b" },
-  healthScoreLabel: { fontSize: 16, color: "#00796b", marginBottom: 8 },
-  shortInsight: { fontSize: 14, color: "#004d40", textAlign: "center" },
+
+  scoreBox: { width: 80, height: 80, borderRadius: 12, backgroundColor: "#1E90FF", justifyContent: "center", alignItems: "center", marginRight: 20 },
+  scoreInfo: { flex: 1, flexDirection: "column", },
+  healthScore: { fontSize: 32, fontWeight: "700", color: "#fff" },
+  healthScoreLabel: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: 4,
+  },
+  shortInsight: { fontSize: 14, color: "#555" },
 
   summaryContainer: { marginBottom: 20 },
   sectionHeader: { fontSize: 20, fontWeight: "600", marginBottom: 10 },

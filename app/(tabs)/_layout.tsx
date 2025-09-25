@@ -39,7 +39,7 @@ export default function TabsLayout() {
                         return (
                             <TouchableOpacity {...safeProps} style={styles.fabButton}>
                                 <View style={styles.fabCircle}>
-                                    <Ionicons name="camera" color="#fff" size={32} />
+                                    <Ionicons name="scan" color="#fff" size={32} />
                                 </View>
                             </TouchableOpacity>
                         );
