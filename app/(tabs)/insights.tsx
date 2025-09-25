@@ -39,7 +39,7 @@ export default function AIInsightsScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 16, paddingTop: 100, backgroundColor: "#fff" },
+    container: { flex: 1, padding: 16, paddingTop: 100,},
     header: { fontSize: 24, fontWeight: "bold", marginBottom: 16 },
     card: { padding: 12, borderRadius: 8, backgroundColor: "#f2f2f2", marginBottom: 12 },
     title: { fontSize: 18, fontWeight: "600", marginBottom: 4 },

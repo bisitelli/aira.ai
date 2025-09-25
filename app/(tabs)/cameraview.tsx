@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 export default function FoodCameraScreen() {
     const [permission, requestPermission] = useCameraPermissions();
@@ -11,6 +13,12 @@ export default function FoodCameraScreen() {
     const [symptoms, setSymptoms] = useState<string[]>([]);
 
     const cameraRef = useRef<CameraView | null>(null);
+
+    const router = useRouter();
+
+    const closeCamera = () => {
+        router.push("/"); // navigoi rootiin tai haluamaasi tab-screeniin
+    };
 
     // ✅ Lataa symptomit
     useEffect(() => {
@@ -77,7 +85,24 @@ export default function FoodCameraScreen() {
 
     return (
         <View style={{ flex: 1 }}>
-            <CameraView style={{ flex: 1 }} facing="back" ref={cameraRef} />
+
+            {/* Close button */}
+            <TouchableOpacity
+                onPress={closeCamera}
+                style={{
+                    position: "absolute",
+                    top: 50,
+                    left: 20,
+                    zIndex: 10,
+                    backgroundColor: "rgba(0,0,0,0.5)",
+                    padding: 10,
+                    borderRadius: 20,
+                }}
+            >
+                <Ionicons name="close" size={28} color="#fff" />
+            </TouchableOpacity>
+
+            <CameraView style={{ flex: 1, zIndex: 0, }} facing="back" ref={cameraRef} />
             <View>
                 {!loading && (
                     <TouchableOpacity onPress={takePhoto} style={styles.captureButton} />
@@ -115,7 +140,7 @@ const styles = StyleSheet.create({
     center: { flex: 1, justifyContent: "center", alignItems: "center" },
     captureButton: {
         position: "absolute",
-        bottom: 40,
+        bottom: 30,
         alignSelf: "center",
         width: 70,
         height: 70,

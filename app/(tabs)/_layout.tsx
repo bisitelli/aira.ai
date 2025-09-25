@@ -1,37 +1,55 @@
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
-
+import { BlurView } from "expo-blur";
 
 
 export default function TabsLayout() {
-    return <Tabs
-        screenOptions={{
-            tabBarActiveTintColor: "#1E90FF",
-            headerShown: false,
-        }}
-    >
-        <Tabs.Screen name="index"
-            options={{
-                title: "Home",
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="home" color={color} size={size} />
-                )
-            }} />
-        <Tabs.Screen name="food"
-            options={{
-                title: "Food Log",
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="book-outline" color={color} size={size} />
-                )
-            }} />
-        <Tabs.Screen
+    return (
+        <Tabs
+            screenOptions={{
+                tabBarActiveTintColor: "#fff",
+                headerShown: false,
+                tabBarStyle: {
+                    position: "absolute",
+                    backgroundColor: "transparent", // make it transparent
+                    borderTopWidth: 0,
+                    elevation: 0, // remove Android shadow
+                },
+                tabBarBackground: () => (
+                    <BlurView
+                        tint="dark" // "light" | "dark" | "default"
+                        intensity={70} // blur strength
+                        style={{ flex: 1 }}
+                    />
+                ),
+            }}
+        >
+            <Tabs.Screen
+                name="index"
+                options={{
+                    title: "",
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="apps-sharp" color={color} size={size} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="food"
+                options={{
+                    title: "",
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="calendar-sharp" color={color} size={size} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
                 name="cameraview"
                 options={{
                     title: "",
-                    tabBarIcon: () => null, // Ei perusikonia
+                    tabBarStyle: { display: "none" },
+                    tabBarIcon: () => null,
                     tabBarButton: (props) => {
-                        // Poista kaikki null-arvoiset propsit
                         const safeProps = Object.fromEntries(
                             Object.entries(props).filter(([_, value]) => value !== null)
                         );
@@ -39,33 +57,38 @@ export default function TabsLayout() {
                         return (
                             <TouchableOpacity {...safeProps} style={styles.fabButton}>
                                 <View style={styles.fabCircle}>
-                                    <Ionicons name="scan" color="#fff" size={32} />
+                                    <Ionicons name="scan" color="#000" size={32} />
                                 </View>
                             </TouchableOpacity>
                         );
                     },
                 }}
             />
-        <Tabs.Screen name="symptomselectionscreen"
-            options={{
-                title: "Symptoms",
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="medkit-outline" color={color} size={size} />
-                )
-            }} />
-        <Tabs.Screen name="insights"
-            options={{
-                title: "AI Insights",
-                tabBarIcon: ({ color, size }) => (
-                    <Ionicons name="bulb" color={color} size={size} />
-                )
-            }} />
-    </Tabs>;
+            <Tabs.Screen
+                name="symptomselectionscreen"
+                options={{
+                    title: "",
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="book-sharp" color={color} size={size} />
+                    ),
+                }}
+            />
+            <Tabs.Screen
+                name="insights"
+                options={{
+                    title: "",
+                    tabBarIcon: ({ color, size }) => (
+                        <Ionicons name="sparkles-sharp" color={color} size={size} />
+                    ),
+                }}
+            />
+        </Tabs>
+    );
 }
 
 const styles = StyleSheet.create({
     fabButton: {
-        top: -20, // nostaa painiketta ylöspäin tab barin yläpuolelle
+        top: -20,
         justifyContent: "center",
         alignItems: "center",
     },
@@ -73,7 +96,7 @@ const styles = StyleSheet.create({
         width: 64,
         height: 64,
         borderRadius: 32,
-        backgroundColor: "#1E90FF",
+        backgroundColor: "#fff",
         justifyContent: "center",
         alignItems: "center",
         shadowColor: "#000",

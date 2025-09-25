@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import {ScrollView, View, Text, StyleSheet } from "react-native";
 import QuickActions from "../components/quickActions";
+import HealthScoreChart from "../components/healthScoreChart";
 
 export default function HomeScreen() {
 
@@ -25,6 +26,10 @@ export default function HomeScreen() {
       <Text style={styles.greeting}>Hi {user} 👋</Text>
 
       <View>
+        <HealthScoreChart />
+      </View>
+
+      <View>
         <QuickActions />
       </View>
 
@@ -39,33 +44,6 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      {/* Päivän yhteenveto */}
-      <View style={styles.summaryContainer}>
-        <Text style={styles.sectionHeader}>{`Today's Summary`}</Text>
-        <View style={styles.summaryColumns}>
-          <View style={styles.summaryColumn}>
-            <Ionicons name="restaurant-outline" size={24} color="#fff" style={{ marginLeft: 8, marginRight: 8, backgroundColor: "#1E90FF", padding: 10, borderRadius: 50, }} />
-            <View style={{ flexDirection: "column" }}>
-              <Text style={styles.columnLabel}>Meals</Text>
-              <Text style={styles.columnValue}>{summary.meals}</Text>
-            </View>
-          </View>
-          <View style={styles.summaryColumn}>
-            <Ionicons name="water-outline" size={24} color="#fff" style={{ marginLeft: 8, marginRight: 8, backgroundColor: "#1E90FF", padding: 10, borderRadius: 50, }} />
-            <View style={{ flexDirection: "column" }}>
-              <Text style={styles.columnLabel}>Water Intake</Text>
-              <Text style={styles.columnValue}>{summary.water}</Text>
-            </View>
-          </View>
-          <View style={styles.summaryColumn}>
-            <Ionicons name="bicycle-outline" size={24} color="#fff" style={{ marginLeft: 8, marginRight: 8, backgroundColor: "#1E90FF", padding: 10, borderRadius: 50, }} />
-            <View style={{ flexDirection: "column" }}>
-              <Text style={styles.columnLabel}>Exercise</Text>
-              <Text style={styles.columnValue}>{summary.exercise}</Text>
-            </View>
-          </View>
-        </View>
-      </View>
 
       {/* AI Insights Section */}
       {/* AI Insights */}
@@ -83,8 +61,8 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, marginTop: 50 },
-  greeting: { fontSize: 24, fontWeight: "600", marginBottom: 10  },
+  container: { flex: 1, padding: 20, marginTop: 50, },
+  greeting: { fontSize: 24, fontWeight: "600", marginBottom: 10, color: "#fff" },
   healthScoreContainer: {
     width: "100%",
     padding: 20,
