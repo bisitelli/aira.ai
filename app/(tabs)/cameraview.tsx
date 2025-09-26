@@ -74,8 +74,12 @@ export default function FoodCameraScreen() {
 
             const cleanedText = aiText.replace(/^(good|bad)[\s,:.-]*/i, "").trim();
             setResult({ status, text: cleanedText });
-        } catch (err) {
-            console.error(err);
+        } catch (err: any) {
+            console.error("❌ Axios error:");
+            console.error("Status:", err.response?.status);
+            console.error("Data:", err.response?.data);
+            console.error("Message:", err.message);
+
             setResult({ status: "bad", text: "Error analyzing food." });
         } finally {
             setLoading(false);
