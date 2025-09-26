@@ -48,7 +48,7 @@ export default function FoodCameraScreen() {
 
     const takePhoto = async () => {
         if (!cameraRef.current) return;
-        const photo = await cameraRef.current.takePictureAsync({ base64: true, quality: 0.7 });
+        const photo = await cameraRef.current.takePictureAsync({ base64: true, quality: 0.5 });
 
         if (photo.base64) {
             analyzeFood(photo.base64);
