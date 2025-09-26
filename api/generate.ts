@@ -35,14 +35,7 @@ export default async function handler(
                     {
                         parts: [
                             {
-                                text: `You are a nutrition therapist.
-1. Identify the food in this image (be specific, include main ingredients and preparation if possible).
-2. Analyze whether this food is GOOD, BAD, or NEUTRAL for the user's selected symptoms: ${symptoms.join(", ")}.
-3. Explain in 2–4 sentences why it may be good or bad, using clear, patient-friendly language. Mention known triggers.
-4. If relevant, add other typical digestive symptoms this food might cause.
-5. Give a practical suggestion.
-
-Return plain text only.`
+                                text: `Analyze this image and return GOOD/BAD/NEUTRAL for symptoms.`
                             },
                             {
                                 inline_data: {
