@@ -2,17 +2,13 @@ import { Ionicons } from "@expo/vector-icons";
 import {ScrollView, View, Text, StyleSheet } from "react-native";
 import QuickActions from "../components/quickActions";
 import HealthScoreChart from "../components/healthScoreChart";
+import HealthScore from "../components/healthScore";
 
 export default function HomeScreen() {
 
   const user = "Anna";
   const healthScore = 78;
   const shortInsight = "Your digestion is stable today!";
-  const summary = {
-    meals: "Oatmeal, Salad, Chicken",
-    water: "1.5L",
-    exercise: "30 mins walk",
-  };
 
   const aiInsights = [
     "Consider adding more fiber to your diet.",
@@ -20,7 +16,7 @@ export default function HomeScreen() {
     "Incorporate probiotics for gut health.",
   ];
   return (
-    <ScrollView>
+    <ScrollView contentInsetAdjustmentBehavior="automatic">
     <View style={styles.container}>
       {/* Tervetuloviesti käyttäjälle */}
       <Text style={styles.greeting}>Hi {user} 👋</Text>
@@ -30,38 +26,20 @@ export default function HomeScreen() {
       </View>
 
       <View>
-        <QuickActions />
+        <HealthScore />
       </View>
 
-      {/* Päivän lyhyt terveydentila */}
-      <View style={styles.healthScoreContainer}>
-        <View style={styles.scoreBox}>
-          <Text style={styles.healthScore}>{healthScore}</Text>
-        </View>
-        <View style={styles.scoreInfo}>
-          <Text style={styles.healthScoreLabel}>Health Score</Text>
-          <Text style={styles.shortInsight}>{shortInsight}</Text>
-        </View>
+      <View style={styles.summaryContainer}>
+        <Text style={styles.summaryTitle}>Recent Logs</Text>
       </View>
 
-
-      {/* AI Insights Section */}
-      {/* AI Insights */}
-      <View style={styles.aiInsightsContainer}>
-        <Text style={styles.sectionHeader}>AI Insights</Text>
-        {aiInsights.map((insight, idx) => (
-          <Text key={idx} style={styles.aiText}>
-            • {insight}
-          </Text>
-        ))}
-      </View>
     </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, marginTop: 50, },
+  container: { flex: 1, padding: 20, },
   greeting: { fontSize: 24, fontWeight: "600", marginBottom: 10, color: "#fff" },
   healthScoreContainer: {
     width: "100%",
@@ -88,12 +66,5 @@ const styles = StyleSheet.create({
   shortInsight: { fontSize: 14, color: "#555" },
 
   summaryContainer: { marginBottom: 20 },
-  sectionHeader: { fontSize: 20, fontWeight: "600", marginBottom: 10 },
-  summaryColumns: { flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-start", gap: 8, },
-  summaryColumn: { flexDirection: "row", alignItems: "center", backgroundColor: "#fff", padding: 12, borderRadius: 8, width: "100%", shadowColor: "#000", shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.1, shadowRadius: 2, elevation: 2, },
-  columnValue: { fontSize: 14, color: "#555" },
-  columnLabel: { fontSize: 18, fontWeight: "700", color: "#000" },
-
-  aiInsightsContainer: { marginTop: 10 },
-  aiText: { fontSize: 14, color: "#555", marginBottom: 6 },
+  summaryTitle: { fontSize: 20, fontWeight: "600", marginBottom: 10, color: "#fff" },
 });

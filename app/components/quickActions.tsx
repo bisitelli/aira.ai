@@ -4,11 +4,11 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 interface QuickActionsProps {
-    onPressAction?: (type: "Meal" | "Water" | "Symptoms" | "Exercise") => void;
+    onPressAction?: (type: "Meal" | "Water" | "Symptoms") => void;
 }
 
 export default function QuickActions({ onPressAction }: QuickActionsProps) {
-    const handlePress = (type: "Meal" | "Water" | "Symptoms" | "Exercise") => {
+    const handlePress = (type: "Meal" | "Water" | "Symptoms") => {
         if (onPressAction) onPressAction(type);
         console.log(`Add new ${type}`);
     };
@@ -16,17 +16,17 @@ export default function QuickActions({ onPressAction }: QuickActionsProps) {
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.button} onPress={() => handlePress("Meal")}>
-                <Ionicons name="restaurant-outline" size={28} color="#1E90FF" />
+                <Ionicons name="restaurant-outline" size={28} color="#ffa500" />
                 <Text style={styles.label}>Meal</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.button} onPress={() => handlePress("Water")}>
-                <Ionicons name="water-outline" size={28} color="#1E90FF" />
+                <Ionicons name="water-outline" size={28} color="#ffa500" />
                 <Text style={styles.label}>Water</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.button} onPress={() => handlePress("Symptoms")}>
-                <Ionicons name="pulse-outline" size={28} color="#1E90FF" />
+                <Ionicons name="pulse-outline" size={28} color="#ffa500" />
                 <Text style={styles.label}>Symptoms</Text>
             </TouchableOpacity>
         </View>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     },
     button: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: "#2c2c2c",
         paddingVertical: 12,
         marginHorizontal: 4,
         borderRadius: 12,
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     label: {
-        color: "#000",
+        color: "#fff",
         marginTop: 4,
         fontWeight: "600",
         fontSize: 14,
